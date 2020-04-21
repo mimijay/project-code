@@ -1,0 +1,84 @@
+#THIS CODE LOADS DATA INTO JUPYTER
+
+	    import matplotlib.pyplot as plt
+	    %matplotlib inline
+
+            import pandas as pd
+            df = pd.read_csv("thick.csv")
+            df
+
+#CHANGING FROM EXCEL TO CSV
+
+            save as-> select csv UTF-8(Comma delimited) (*.csv)
+
+#THIS CODE SPLITS DATA INTO TRAIN AND TEST DATA
+            from sklearn.model_selection import train_test_split
+            x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=0.1)
+            len(x_train)
+            len(x_test)
+
+# THIS REVEALS SUMMARY STATISTICS OF DATA AND EXPORT TO EXCEL
+	   df.describe().transpose()
+	   df.describe().transpose().to_excel (r'C:\Users\mimi_lovebug\summary_stat.xlsx', index = False, header=True)
+
+#PICTORIAL VIEW OF TEST DATA
+	   x_test
+	   x_test.to_excel(r'C:\Users\mimi_lovebug\prediction_data.xlsx', index = False, header=True)
+
+#PLOTS OF FEATURES
+	  plt.xlabel("Price")
+plt.ylabel("Hotness")
+plt.title("Price Vs Hotness")
+plt.scatter(df['Price'], df['Hotness'])
+
+	  plt.xlabel("Hotness_score")
+plt.ylabel("Hotness")
+plt.title("Hotness_Score Vs Hotness")
+plt.scatter(df['hotness_score'], df['Hotness'])
+
+	  plt.xlabel("section_sort")
+plt.ylabel("Hotness")
+plt.title("section_sort Vs Hotness")
+plt.scatter(df['section_sort'], df['Hotness'])
+
+	  plt.xlabel("Coupons")
+plt.ylabel("Hotness")
+plt.title("Coupons Vs Hotness")
+plt.scatter(df['Coupons'], df['Hotness'])
+
+	  plt.xlabel("free shipping")
+plt.ylabel("Hotness")
+plt.title("Free_Shipping Vs Hotness")
+plt.scatter(df['free shipping'], df['Hotness'])
+
+	  plt.xlabel("Weekday_Number")
+plt.ylabel("Hotness")
+plt.title("Weekday Number Vs Hotness")
+plt.scatter(df['Weekday Num'], df['Hotness'])
+
+#CORRELATION AMONG FEATURES
+	  import numpy as np
+mask = np.zeros_like(x_train.corr(), dtype=np.bool)
+import seaborn as sns
+
+plt.subplots(figsize=(10,7))
+sns.heatmap(df.corr(),
+            annot=True,
+
+            cmap='RdBu',
+            linewidths= .9,
+            linecolor='gray',
+            fmt='.2g',
+            center=0,
+            square=True)
+plt.title("Correlations Among Features",y=1.03,fontsize=20,pad=40);
+
+#THE ALGORITHM
+	   import numpy as np
+	   from sklearn import linear_model
+	   reg = linear_model.LinearRegression()
+reg.fit(df[[free shipping','Weekday Num', 'Time of Day', 'hotness_score']],df.Hotness)
+	   reg.coef_
+	   reg.intercept_
+	   reg.predict([[1,3,1,691]])
+	  
